@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace QMS.Token.Generate
+namespace QMS.ServiceProvider.WindowsClient
 {
     static class Program
     {
@@ -16,7 +16,7 @@ namespace QMS.Token.Generate
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new ServiceHomeForm());
+            Application.Run(new ServiceLogin());
         }
     }
 }
