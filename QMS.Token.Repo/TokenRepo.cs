@@ -26,7 +26,9 @@ namespace QMS.Token.Repo
         public DataTable GetTodaysWaitingTokenbyClient(int clientId)
         {
             DataTable tokens = new DataTable();
-            string queryToGetLastToken = "Select * From Token  where CreationTime>@CreationTime and ClientId=@ClientId and IsServiceProvided=@IsServiceProvided and IsCalled=@IsCalled order by CreationTime asc";
+            string queryToGetLastToken = "Select * From Token  where CreationTime>@CreationTime " +
+                "and ClientId=@ClientId and IsServiceProvided=@IsServiceProvided " +
+                "and IsCalled=@IsCalled order by CreationTime asc";
             SqlCommand command = DataAccess.GetCommand(queryToGetLastToken);
             command.Parameters.AddWithValue("@CreationTime", DateTime.Today);
             command.Parameters.AddWithValue("@ClientId", clientId);
@@ -38,7 +40,10 @@ namespace QMS.Token.Repo
         public DataTable GetTodaysTokensByServiceProvidedStatusAndCalledStatus(int serviceProvidedStatus,int tokenCalledStatus)
         {
             DataTable tokens = new DataTable();
-            string queryToGetTokens = "Select CONCAT(LEFT(Service.Name, 1), '',TokenNumber ) AS 'Token Number', CreationTime From Token,Service  where Token.ServiceId=[Service].Id  and CreationTime>@CreationTime and IsServiceProvided=@IsServiceProvided and IsCalled=@IsCalled order by CreationTime asc";
+            string queryToGetTokens = "Select CONCAT(LEFT(Service.Name, 1), '',TokenNumber ) AS 'Token Number', CreationTime " +
+                "From Token,Service  where Token.ServiceId=[Service].Id  " +
+                "and CreationTime>@CreationTime and IsServiceProvided=@IsServiceProvided " +
+                "and IsCalled=@IsCalled order by CreationTime asc";
             SqlCommand command = DataAccess.GetCommand(queryToGetTokens);
             command.Parameters.AddWithValue("@CreationTime", DateTime.Today);
             command.Parameters.AddWithValue("@IsServiceProvided", serviceProvidedStatus);
@@ -61,14 +66,13 @@ namespace QMS.Token.Repo
 
         public DataTable GetTodaysNextToken()
         {
-            DataTable tokens = new DataTable();
             string queryToGetLastToken = "Select Top(1) Token.Id,TokenNumber,Name From Token,Service  where CreationTime>@CreationTime and IsServiceProvided=@IsServiceProvided and IsCalled=@IsCalled and ServiceId=Service.Id order by CreationTime asc";
             SqlCommand command = DataAccess.GetCommand(queryToGetLastToken);
             command.Parameters.AddWithValue("@CreationTime", DateTime.Today);
             command.Parameters.AddWithValue("@IsServiceProvided", 0);
             command.Parameters.AddWithValue("@IsCalled", 1);
-            tokens = DataAccess.Execute(command);
-            return tokens;
+
+            return DataAccess.Execute(command);
         }
 
         public int UpdateTokenAfterCall(int TokenId, int serviceStatus,int callingStatus,DateTime ServiceProvidedAt)

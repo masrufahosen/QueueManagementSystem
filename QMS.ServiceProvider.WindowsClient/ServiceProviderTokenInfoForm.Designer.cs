@@ -99,6 +99,7 @@
             this.btnRefreshGrid.TabIndex = 5;
             this.btnRefreshGrid.Text = "Refresh Grid";
             this.btnRefreshGrid.UseVisualStyleBackColor = true;
+            this.btnRefreshGrid.Click += new System.EventHandler(this.btnRefreshGrid_Click);
             // 
             // ServiceProviderTokenInfoForm
             // 

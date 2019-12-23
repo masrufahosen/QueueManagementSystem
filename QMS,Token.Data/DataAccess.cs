@@ -7,32 +7,21 @@ namespace QMS_Token.Data
 {
     public class DataAccess
     {
-        public static string CONNECTION_STRING = @"";
 
-        //This returns the connection string  
-        private static string _connectionString = string.Empty;
 
         public static string ConnectionString
         {
-            get
-            {
-                if (_connectionString == string.Empty)
-                {
-                    _connectionString = CONNECTION_STRING;
-                }
-
-                return _connectionString;
-            }
+            get;private set;
         }
 
         public DataAccess(string connectionString)
         {
-            _connectionString = connectionString;
+            ConnectionString = connectionString;
         }
 
         public DataAccess()
         {
-            CONNECTION_STRING = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Mou\source\repos\QMS.Token.Generate.WindowsClient\QMSDB.mdf;Integrated Security=True;Connect Timeout=30";
+            ConnectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Mou\source\repos\QMS.Token.Generate.WindowsClient\QMSDB.mdf;Integrated Security=True;Connect Timeout=30";
         }
 
         /// <summary>
@@ -60,7 +49,6 @@ namespace QMS_Token.Data
             cmd.Connection.Open();
             dt.Load(cmd.ExecuteReader());
             cmd.Connection.Close();
-            cmd.Dispose();
             return dt;
         }
 
@@ -72,68 +60,14 @@ namespace QMS_Token.Data
         public DataTable Execute(SqlCommand command)
         {
             DataTable dt = new DataTable();
-            try
-            {
 
-                command.Connection.Open();
-                dt.Load(command.ExecuteReader());
-            }
-            catch (Exception ex) { }
-            finally
-            {
-                command.Connection.Close();
-                command.Dispose();
-            }
+            command.Connection.Open();
+            dt.Load(command.ExecuteReader());
+            command.Connection.Close();
 
             return dt;
         }
-        /// <summary>
-        /// Returns Dataset
-        /// </summary>
-        /// <param name="SelectSqlCommand"></param>
-        /// <returns>DataSet</returns>
-        public DataSet ExecuteToGetDataSet(SqlCommand SelectSqlCommand)
-        {
-            SqlDataAdapter dataAdapter = new SqlDataAdapter(SelectSqlCommand);
-            DataSet dataSet = new DataSet();
-            try
-            {
-                SelectSqlCommand.Connection.Open();
-                dataAdapter.Fill(dataSet);
-            }
-            catch (Exception ex) { }
-            finally
-            {
-                SelectSqlCommand.Connection.Close();
-                SelectSqlCommand.Dispose();
-            }
 
-            return dataSet;
-        }
-        /// <summary>
-        /// Returns Dataset
-        /// </summary>
-        /// <param name="SelectQuery"></param>
-        /// <returns>DataSet</returns>
-        public DataSet ExecuteToGetDataSet(string SelectQuery)
-        {
-            var connection = new SqlConnection(ConnectionString);
-            var dataAdapter = new SqlDataAdapter(SelectQuery, connection);
-            var dataSet = new DataSet();
-            try
-            {
-                connection.Open();
-                dataAdapter.Fill(dataSet);
-            }
-            catch (Exception ex) { }
-            finally
-            {
-                connection.Close();
-                connection.Dispose();
-            }
-
-            return dataSet;
-        }
         /// <summary>
         /// returns affected row count
         /// </summary>
@@ -143,20 +77,9 @@ namespace QMS_Token.Data
         {
             SqlCommand cmd = GetCommand(sql);
             int result = 0;
-            try
-            {
-                cmd.Connection.Open();
-                result = cmd.ExecuteNonQuery();
-            }
-            catch (Exception ex)
-            {
-            }
-            finally
-            {
-                cmd.Connection.Close();
-                cmd.Dispose();
-            }
-
+            cmd.Connection.Open();
+            result = cmd.ExecuteNonQuery();
+            cmd.Connection.Close();
             return result;
         }
 
@@ -168,20 +91,9 @@ namespace QMS_Token.Data
         public int ExecuteNonQuery(SqlCommand command)
         {
             int result = 0;
-            try
-            {
-                command.Connection.Open();
-                result = command.ExecuteNonQuery();
-            }
-            catch (Exception ex)
-            {
-
-            }
-            finally
-            {
-                command.Connection.Close();
-            }
-
+            command.Connection.Open();
+            result = command.ExecuteNonQuery();
+            command.Connection.Close();
             return result;
         }
 

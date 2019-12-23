@@ -31,6 +31,10 @@ namespace QMS.ServiceProvider.WindowsClient
 
         private void ServiceProviderTokenInfoForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            if (previousTokenId > 0)
+            {
+                tokenRepo.ServiceProvidedToToken(previousTokenId);
+            }
             _clientRepo.ClientLogout(clientId);
             Application.Exit();
         }
@@ -41,6 +45,10 @@ namespace QMS.ServiceProvider.WindowsClient
         }
 
         private void btnNext_Click(object sender, EventArgs e)
+        {
+            CallNext();
+        }
+        private void CallNext()
         {
             var dataTable = tokenRepo.GetTodaysNextTokenbyClientId(clientId);
             if (previousTokenId > 0)
@@ -68,9 +76,7 @@ namespace QMS.ServiceProvider.WindowsClient
             {
                 MessageBox.Show("There are no more token. Please wait and try again");
             }
-            
         }
-
         private void btnPass_Click(object sender, EventArgs e)
         {
             var dataTable = tokenRepo.GetTodaysNextTokenbyClientId(clientId);
@@ -100,6 +106,11 @@ namespace QMS.ServiceProvider.WindowsClient
                 MessageBox.Show("There are no more token. Please wait and try again");
             }
             
+        }
+
+        private void btnRefreshGrid_Click(object sender, EventArgs e)
+        {
+            gvWaitingToken.DataSource = tokenRepo.GetTodaysWaitingTokenbyClient(clientId);
         }
     }
 }

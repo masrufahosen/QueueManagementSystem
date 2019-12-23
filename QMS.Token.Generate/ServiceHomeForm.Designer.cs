@@ -209,6 +209,7 @@
             this.btnGenerateToken.TabIndex = 1;
             this.btnGenerateToken.Text = "Get Token Number";
             this.btnGenerateToken.UseVisualStyleBackColor = true;
+            this.btnGenerateToken.Click += new System.EventHandler(this.BtnRegistrationService_Click);
             // 
             // groupBox4
             // 

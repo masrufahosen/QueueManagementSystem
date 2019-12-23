@@ -15,7 +15,6 @@ namespace QMS.Token.Generate
         public ServiceHomeForm()
         {
             InitializeComponent();
-            btnGenerateToken.Click += BtnRegistrationService_Click;
             this.Load += ServiceHomeForm_Load;
             _serviceRepo = new ServiceRepo();
             clientRepo = new ClientRepo();
@@ -41,7 +40,6 @@ namespace QMS.Token.Generate
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            
             var dataTable = _tokenRepo.GetTodaysNextToken();
             var runningTokens = _tokenRepo.GetTodaysTokensByServiceProvidedStatusAndCalledStatus(0, 1);
             var upcommingTokens = _tokenRepo.GetTodaysTokensByServiceProvidedStatusAndCalledStatus(0, 0);
@@ -85,7 +83,6 @@ namespace QMS.Token.Generate
         {
             if(sender is Button)
             {
-                var btnSender = (Button)sender;
                 DataTable dataTable =_tokenRepo.GetLastTokenForToday();
                 if (dataTable.Rows.Count > 0)
                 {
